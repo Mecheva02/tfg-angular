@@ -1,0 +1,70 @@
+<div class="container-fluid vh-100 d-flex align-items-center justify-content-center bg-light">
+  <div class="row w-100 h-100">
+    <!-- IZQUIERDA: Logo o imagen -->
+    <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center bg-white">
+      <img src="assets/images/icono.png" alt="Logo" width="280" class="img-fluid opacity-75">
+    </div>
+
+    <!-- DERECHA: Formulario -->
+    <div class="col-md-6 d-flex align-items-center justify-content-center">
+      <div class="card shadow-lg border-0 p-4 rounded-4" style="max-width: 380px; width: 100%; background-color: #ffffff;">
+        <h3 class="text-center mb-4 fw-semibold" style="color: #333;">Crea tu cuenta</h3>
+
+        <div class="alert alert-success text-center" *ngIf="status === 'success'">
+          Registro correcto. 
+          <a [routerLink]="['/login']" class="alert-link fw-semibold text-success">Inicia sesión aquí</a>
+        </div>
+        <div class="alert alert-danger text-center" *ngIf="status === 'error'">
+          Registro incorrecto.
+        </div>
+
+        <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+          <div class="mb-3">
+            <input type="text" class="form-control rounded-3" placeholder="Nombre" name="name"
+              [(ngModel)]="user.name" #name="ngModel" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"
+              [ngClass]="{'is-invalid': !name.valid && (name.touched || registerForm.submitted)}">
+          </div>
+
+          <div class="mb-3">
+            <input type="text" class="form-control rounded-3" placeholder="Apellidos" name="surname"
+              [(ngModel)]="user.surname" #surname="ngModel" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"
+              [ngClass]="{'is-invalid': !surname.valid && (surname.touched || registerForm.submitted)}">
+          </div>
+
+          <div class="mb-3">
+            <input type="text" class="form-control rounded-3" placeholder="Nombre de usuario" name="username"
+              [(ngModel)]="user.username" #username="ngModel" required pattern="[a-zA-Z0-9_]+"
+              [ngClass]="{'is-invalid': !username.valid && (username.touched || registerForm.submitted)}">
+          </div>
+
+          <div class="mb-3">
+            <input type="email" class="form-control rounded-3" placeholder="Correo electrónico" name="email"
+              [(ngModel)]="user.email" #email="ngModel" required email
+              [ngClass]="{'is-invalid': !email.valid && (email.touched || registerForm.submitted)}">
+          </div>
+
+          <div class="mb-4">
+            <input type="password" class="form-control rounded-3" placeholder="Contraseña" name="password"
+              [(ngModel)]="user.password" #password="ngModel" required minlength="6"
+              [ngClass]="{'is-invalid': !password.valid && (password.touched || registerForm.submitted)}">
+          </div>
+
+          <button type="submit" class="btn w-100 py-2 fw-semibold text-white rounded-3"
+            [disabled]="registerForm.invalid"
+            style="background: linear-gradient(90deg, #343a40, #495057);">
+            Registrarse
+          </button>
+        </form>
+
+        <hr class="my-4">
+
+        <div class="text-center">
+          <span>¿Ya tienes cuenta?</span>
+          <a [routerLink]="['/login']" class="fw-semibold text-decoration-none" style="color: #0d6efd;">
+            Inicia sesión
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

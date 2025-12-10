@@ -1,0 +1,46 @@
+<div class="container mt-4">
+
+  <h4 class="mb-3 text-center">Notificaciones</h4>
+
+  <div *ngIf="notifications.length === 0" class="text-muted text-center">
+    No tienes notificaciones.
+  </div>
+
+  <div
+    *ngFor="let notification of notifications"
+    class="notification-card mb-2 p-3 border rounded d-flex align-items-start gap-2"
+  >
+
+    <!-- ✅ FOTO DE PERFIL DEL USUARIO QUE ENVÍA LA NOTIFICACIÓN (SENDER) -->
+    <ng-container *ngIf="notification.sender?.image; else defaultAvatar">
+  <img
+    [src]="getUserImage(notification.sender!.image!)"
+    class="rounded-circle flex-shrink-0"
+    width="38"
+    height="38"
+  />
+</ng-container>
+
+<ng-template #defaultAvatar>
+  <img
+    src="assets/images/default-profile.png"
+    class="rounded-circle flex-shrink-0"
+    width="38"
+    height="38"
+  />
+</ng-template>
+
+
+    <div class="flex-grow-1">
+      <div class="notification-message">
+        {{ notification.message }}
+      </div>
+
+      <div class="notification-date text-muted small mt-1">
+        {{ notification.created_at | date:'short' }}
+      </div>
+    </div>
+
+  </div>
+
+</div>

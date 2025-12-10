@@ -1,0 +1,24 @@
+.login-container {
+  max-width: 900px;
+  min-height: 520px;
+  background-color: #f8f9fa;
+}
+
+.login-left {
+  flex: 1;
+  background: linear-gradient(135deg, #343a40, #495057);
+}
+
+.login-right {
+  flex: 0 0 380px;
+}
+
+@media (max-width: 768px) {
+  .login-left {
+    display: none !important;
+  }
+  .login-right {
+    width: 100%;
+    border-radius: 0;
+  }
+}

@@ -1,0 +1,113 @@
+<!-- Mostrar layout solo si el usuario está logueado Y NO está en login o registro -->
+<div *ngIf="identity && !isAuthPage(); else authPages" class="app-layout">
+
+  <!-- Sidebar escritorio -->
+  <aside class="sidebar d-none d-md-flex flex-column justify-content-between border-end shadow-sm">
+    <div>
+      <div
+  class="brand px-4 py-4 text-center"
+  routerLink="/inicio"
+  style="cursor: pointer;"
+>
+  <h2 class="brand-name mb-0">Change<span>MyMind</span></h2>
+</div>
+
+
+      <nav class="nav flex-column mt-3">
+
+        <a class="nav-link" routerLink="/inicio" routerLinkActive="active-link">
+          <i class="bi bi-house-door"></i>
+          <span>Inicio</span>
+        </a>
+
+        <!-- ✅ NOTIFICACIONES -->
+        <a
+          class="nav-link notification-link"
+          routerLink="/notificaciones"
+          routerLinkActive="active-link"
+        >
+          <!-- ✅ CORAZÓN DINÁMICO -->
+          <i
+            class="bi"
+            [ngClass]="notificationsCount > 0 ? 'bi-heart-fill text-danger' : 'bi-heart'"
+          ></i>
+
+          <span>Notificaciones</span>
+
+          <!-- ✅ CONTADOR -->
+          <span
+            *ngIf="notificationsCount > 0"
+            class="notification-badge"
+          >
+            {{ notificationsCount }}
+          </span>
+        </a>
+
+        <!-- ✅ MODERACIÓN (SOLO ADMIN) -->
+        <a
+          *ngIf="identity?.role === 'ROLE_ADMIN'"
+          class="nav-link"
+          routerLink="/admin/moderation"
+          routerLinkActive="active-link"
+        >
+          <i class="bi bi-shield-check"></i>
+          <span>Moderación</span>
+        </a>
+
+        <a class="nav-link" routerLink="/perfil" routerLinkActive="active-link">
+          <img [src]="profileImageUrl" alt="Foto perfil" class="nav-profile-img">
+          <span>Perfil</span>
+        </a>
+
+      </nav>
+    </div>
+
+    <!-- ✅ ELIMINADO CERRAR SESIÓN -->
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Menú inferior móvil -->
+  <nav class="mobile-bottom-nav d-flex d-md-none justify-content-around align-items-center border-top shadow-sm">
+
+    <a class="nav-link" routerLink="/inicio" routerLinkActive="active-link">
+      <i class="bi bi-house-door fs-4"></i>
+    </a>
+
+    <!-- ✅ CORAZÓN EN MÓVIL DINÁMICO -->
+    <a
+      class="nav-link"
+      routerLink="/notificaciones"
+      routerLinkActive="active-link"
+    >
+      <i
+        class="bi fs-4"
+        [ngClass]="notificationsCount > 0 ? 'bi-heart-fill text-danger' : 'bi-heart'"
+      ></i>
+    </a>
+
+    <!-- ✅ MODERACIÓN (SOLO ADMIN - MÓVIL) -->
+    <a
+      *ngIf="identity?.role === 'ROLE_ADMIN'"
+      class="nav-link"
+      routerLink="/admin/moderation"
+      routerLinkActive="active-link"
+    >
+      <i class="bi bi-shield-check fs-4"></i>
+    </a>
+
+    <a class="nav-link" routerLink="/perfil" routerLinkActive="active-link">
+      <img [src]="profileImageUrl" alt="Foto perfil" class="nav-profile-img-mobile">
+    </a>
+
+  </nav>
+
+</div>
+
+<!-- Pantallas de login / registro -->
+<ng-template #authPages>
+  <router-outlet></router-outlet>
+</ng-template>

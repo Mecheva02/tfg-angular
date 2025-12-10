@@ -1,0 +1,234 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-9 col-lg-7">
+
+      <div class="card mb-5 shadow-sm" *ngFor="let post of posts; let i = index">
+
+        <!-- CABECERA -->
+        <div class="d-flex align-items-center p-3 border-bottom">
+          <img
+            [src]="post.user?.image ? getUserImage(post.user.image) : 'assets/images/default-profile.png'"
+            class="rounded-circle me-2 post-user-avatar"
+          >
+          <strong>{{ post.user?.username }}</strong>
+        </div>
+
+        <!-- IMAGEN -->
+        <div *ngIf="post.image" class="post-image-wrapper">
+          <img
+            [src]="getImage(post.image)"
+            class="img-fluid w-100 post-image-rect"
+          >
+        </div>
+
+        <div class="card-body">
+
+          <h5>{{ post.title }}</h5>
+
+          <p class="post-content mb-0" [class.collapsed]="!expanded[i]">
+            {{ post.content }}
+          </p>
+
+          <span
+            class="ver-mas"
+            *ngIf="post.content?.length > 120"
+            (click)="toggleContent(i)"
+          >
+            {{ expanded[i] ? 'Ver menos' : 'Ver más' }}
+          </span>
+
+          <!-- BARRA COMENTARIOS -->
+          <div class="post-actions d-flex align-items-center mt-2">
+
+            <div class="comment-trigger me-2" (click)="toggleComments(i, post.id)">
+              💬 <span class="comment-count">{{ commentCounts[post.id] || 0 }}</span>
+            </div>
+
+            <div class="d-flex flex-grow-1 gap-2">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                placeholder="Escribe un comentario..."
+                [(ngModel)]="newComment[post.id]"
+              >
+              <button
+                class="btn btn-sm btn-primary"
+                (click)="addComment(post.id)"
+              >
+                Enviar
+              </button>
+            </div>
+
+          </div>
+
+          <!-- MENSAJES MODERACIÓN -->
+          <div
+            *ngIf="moderationMessage[post.id]"
+            class="alert mt-2 py-2"
+            [ngClass]="{
+              'alert-success': moderationType[post.id] === 'success',
+              'alert-warning': moderationType[post.id] === 'warning'
+            }"
+          >
+            {{ moderationMessage[post.id] }}
+          </div>
+
+          <!-- COMENTARIOS -->
+          <div
+  *ngIf="showComments[i]"
+  class="border-top pt-3 mt-3 comments-box"
+  (scroll)="onCommentsScroll($event, post.id)"
+>
+
+            <div
+              *ngFor="let comment of comments[post.id]"
+              class="comment-item mb-3 d-flex"
+              [class.fade-in]="comment.id === lastAddedCommentId"
+              [class.fade-out]="comment.id === deletingVisualId"
+            >
+
+              <!-- AVATAR -->
+              <img
+                [src]="comment.user?.image ? getUserImage(comment.user.image) : 'assets/images/default-profile.png'"
+                width="32"
+                height="32"
+                class="rounded-circle me-2"
+              >
+
+              <div class="flex-grow-1">
+
+                <!-- CABECERA COMENTARIO -->
+                <div class="d-flex align-items-center justify-content-between">
+
+                  <div>
+                    <strong>{{ comment.user?.username }}</strong>
+
+                    <div *ngIf="editingCommentId !== comment.id">
+                      {{ comment.content }}
+                    </div>
+                  </div>
+
+                  <!-- MENÚ ⋯ -->
+                  <div
+                    *ngIf="comment.user?.id === currentUserId || currentUserRole === 'ROLE_ADMIN'"
+                    class="comment-menu"
+                  >
+                    <span class="dots">⋯</span>
+
+                    <div class="menu-actions">
+
+                      <div
+                        *ngIf="comment.user?.id === currentUserId"
+                        (click)="startEdit(comment)"
+                      >
+                        Editar
+                      </div>
+
+                      <div
+                        (click)="deleteDirect(post.id, comment.id)"
+                      >
+                        Borrar
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- INPUT EDICIÓN -->
+                <div *ngIf="editingCommentId === comment.id" class="mt-1">
+                  <input
+                    class="form-control form-control-sm mb-1"
+                    [(ngModel)]="editedContent"
+                  >
+
+                  <button
+                    class="btn btn-sm btn-success me-1"
+                    (click)="saveEdit(post.id, comment)"
+                  >
+                    Guardar
+                  </button>
+
+                  <button
+                    class="btn btn-sm btn-secondary"
+                    (click)="cancelEdit()"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+
+                <!-- RESPONDER -->
+                <small
+                  class="text-primary cursor-pointer"
+                  (click)="startReply(comment.id, comment.user?.username || '', comment.user?.id || null)"
+>
+                  Responder
+                </small>
+
+                <div *ngIf="replyingTo === comment.id" class="mt-2 ms-4">
+                  <input class="form-control form-control-sm mb-1" [(ngModel)]="replyContent">
+                  <button class="btn btn-sm btn-primary me-1" (click)="sendReply(post.id, comment.id)">Enviar</button>
+                  <button class="btn btn-sm btn-secondary" (click)="cancelReply()">Cancelar</button>
+                </div>
+
+                <!-- VER / OCULTAR -->
+                <div
+                  *ngIf="comment.replies?.length"
+                  class="mt-2 small text-muted cursor-pointer"
+                  (click)="toggleReplies(comment.id)"
+                >
+                  <span *ngIf="!showReplies[comment.id]">
+                    Ver respuestas ({{ comment.replies?.length || 0 }})
+                  </span>
+                  <span *ngIf="showReplies[comment.id]">
+                    Ocultar respuestas
+                  </span>
+                </div>
+
+                <!-- RESPUESTAS -->
+                <div *ngIf="showReplies[comment.id]" class="ms-4 mt-2">
+
+                  <div *ngFor="let reply of comment.replies" class="d-flex mb-2">
+
+                    <img
+                      [src]="reply.user?.image ? getUserImage(reply.user.image) : 'assets/images/default-profile.png'"
+                      width="28"
+                      height="28"
+                      class="rounded-circle me-2"
+                    >
+
+                    <div>
+                      <strong>
+                        {{ reply.user?.username }}
+                        <span class="text-muted">
+                          @{{ comment.user?.username }}
+                        </span>
+                      </strong>
+
+                      <div>{{ reply.content }}</div>
+
+                      <small
+                        class="text-primary cursor-pointer"
+                        (click)="startReply(comment.id, reply.user?.username || '', reply.user?.id || null)"
+
+                      >
+                        Responder
+                      </small>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+.home-header {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.home-logo-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-logo {
+  width: 70px;     // ✅ tamaño más pequeño
+  height: 70px;
+  object-fit: contain;
+}

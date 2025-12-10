@@ -1,0 +1,73 @@
+<div class="perfil-container">
+  <!-- Header perfil -->
+  <div class="perfil-header">
+    <div class="foto-usuario">
+      <img [src]="profileImageUrl" alt="Foto de perfil">
+    </div>
+    <div class="info-usuario">
+      <h2 class="username">{{ user?.username || 'Username' }}</h2>
+      <p class="nombre-completo">
+        {{ user?.name || 'Nombre' }} {{ user?.surname || 'Apellidos' }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Navegación de perfil -->
+  <div class="perfil-nav">
+
+    <!-- ✅ SOLO ADMIN VE ESTA OPCIÓN -->
+    <a
+      *ngIf="user?.role === 'ROLE_ADMIN'"
+      routerLink="/posts/create"
+      class="perfil-nav-link admin-link"
+    >
+      <i class="bi bi-plus-circle"></i>
+      <span>Crear Post</span>
+    </a>
+
+    <!-- ✅ AJUSTES -->
+    <a (click)="toggleSettingsPopup()" class="perfil-nav-link" style="cursor:pointer;">
+      <i class="bi bi-gear"></i>
+      <span>Ajustes</span>
+    </a>
+  </div>
+
+  <!-- ✅ POSTS DONDE HE PARTICIPADO (SE CARGAN AUTOMÁTICAMENTE) -->
+  <div class="mis-respuestas-container">
+
+   <h4 class="participated-title">Debates en los que he participado</h4>
+
+
+    <div *ngIf="myResponsePosts.length === 0" class="text-muted">
+      Aún no has participado en ningún post.
+    </div>
+
+    <div
+      *ngFor="let post of myResponsePosts"
+      class="mis-respuestas-post"
+      (click)="goToPost(post.id)"
+      style="cursor:pointer;"
+    >
+      <img
+        [src]="post.image_url"
+        alt="Imagen del post"
+        class="mis-respuestas-img"
+      >
+
+      <div class="mis-respuestas-title">
+        {{ post.title }}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Popup Ajustes -->
+  <div *ngIf="showSettingsPopup" class="settings-popup-backdrop">
+    <div class="settings-popup">
+      <button (click)="goToSettings()">Configuración</button>
+      <button (click)="logout()">Cerrar sesión</button>
+      <button (click)="cancelPopup()">Cancelar</button>
+    </div>
+  </div>
+
+</div>

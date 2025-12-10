@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Playfair+Display:wght@700&display=swap');
+
+.app-layout {
+  display: flex;
+  height: 100vh;
+  background-color: #f2f4f7;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* sidebar */
+.sidebar {
+  width: 260px;
+  background: #ffffff;
+  border-right: 1px solid #dcdfe3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Marca*/
+.brand {
+  text-align: left;
+  padding: 1.2rem 1.5rem;
+}
+
+.brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: #111827;
+  letter-spacing: 0.3px;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.brand-name span {
+  color: #0077ff !important;
+  font-weight: 700;
+}
+
+/* navegacion */
+.nav {
+  padding: 0 12px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #1a1a1a !important;
+  font-weight: 500;
+  padding: 12px 18px;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+  font-size: 1rem;
+  letter-spacing: 0.2px;
+  background: transparent;
+}
+
+.nav-link i {
+  font-size: 1.4rem;
+  color: #1a1a1a !important;
+  transition: color 0.25s ease;
+}
+
+/* Hover */
+.nav-link:hover {
+  background-color: #f1f5f9;
+  color: #0077ff !important;
+  transform: translateX(4px);
+}
+
+.nav-link:hover i {
+  color: #0077ff !important;
+}
+
+/* Activo */
+.active-link {
+  background-color: #e0ecff !important;
+  color: #0056d2 !important;
+  font-weight: 600;
+  border-left: 4px solid #0056d2 !important;
+  padding-left: 14px;
+}
+
+.active-link i {
+  color: #0056d2 !important;
+}
+
+/* Logout */
+.sidebar-bottom .logout {
+  color: #dc2626 !important;
+  font-weight: 600;
+  padding: 12px 18px;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+}
+
+.sidebar-bottom .logout:hover {
+  background-color: #fee2e2 !important;
+  transform: translateX(4px);
+}
+
+/* contenido */
+.main-content {
+  flex-grow: 1;
+  margin-left: 260px;
+  padding: 2rem;
+  overflow-y: auto;
+  background: #f9fafb;
+  color: #1e293b;
+}
+
+/* Responsive móvil */
+@media (max-width: 768px) {
+
+  /* sidebar oculto */
+  .sidebar {
+    display: none;
+  }
+
+  
+  .brand-name {
+    display: none;
+  }
+
+  
+  .main-content {
+    margin-left: 0;
+    padding-bottom: 60px; 
+  }
+
+  /* menú inferior */
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 0.5rem 0;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #dcdfe3;
+    box-shadow: 0 -2px 6px rgba(0,0,0,0.05);
+    z-index: 1000;
+}
+
+.mobile-bottom-nav a {
+    color: #333;
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+
+.mobile-bottom-nav a.active-link i {
+    color: #0d6efd;
+}
+
+
+.nav-profile-img-mobile {
+    width: 1.8rem;   /* igual que desktop */
+    height: 1.8rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid transparent;
+    transition: border-color 0.25s ease;
+    margin-left: -2px; /* igual que desktop */
+}
+
+
+.mobile-bottom-nav a:hover .nav-profile-img-mobile {
+    border-color: #0077ff !important;
+}
+
+
+.mobile-bottom-nav a.active-link .nav-profile-img-mobile {
+    border-color: #0056d2 !important;
+}
+
+}
+.nav-profile-img {
+  width: 1.8rem; 
+  height: 1.8rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid transparent;
+  transition: border-color 0.25s ease;
+  margin-left:-2px;
+}
+
+.nav-link:hover .nav-profile-img {
+  border-color: #0077ff !important;
+}
+
+.active-link .nav-profile-img {
+  border-color: #0056d2 !important;
+}

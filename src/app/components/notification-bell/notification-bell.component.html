@@ -1,0 +1,33 @@
+<div class="notification-wrapper position-relative">
+
+
+  <div class="notification-icon" (click)="togglePanel()">
+    ♡
+    <span *ngIf="unreadCount > 0" class="notification-badge">
+      {{ unreadCount }}
+    </span>
+  </div>
+
+  <!-- ✅ PANEL DESPLEGABLE -->
+  <div *ngIf="showPanel" class="notification-panel shadow">
+
+    <div class="notification-header">
+      Notificaciones
+    </div>
+
+    <div *ngIf="notifications.length === 0" class="notification-empty">
+      No tienes notificaciones
+    </div>
+
+    <div
+      *ngFor="let n of notifications"
+      class="notification-item"
+      [class.unread]="!n.read"
+      (click)="markAsRead(n)"
+    >
+      {{ n.message }}
+    </div>
+
+  </div>
+
+</div>

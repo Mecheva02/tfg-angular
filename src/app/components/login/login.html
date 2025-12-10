@@ -1,0 +1,108 @@
+<div class="login-wrapper d-flex align-items-center justify-content-center vh-100 bg-light">
+  <div class="login-container d-flex shadow rounded-4 overflow-hidden">
+
+    <!-- IZQUIERDA -->
+    <div class="login-left d-none d-md-flex align-items-center justify-content-center bg-dark text-light p-5">
+      <div class="text-center">
+        <img src="assets/images/icono.png" alt="Logo" width="120" height="120" class="mb-4">
+        <h1 class="fw-bold">ChangeMyMind</h1>
+        <p class="text-secondary mt-2">Comparte tus ideas. Cambia perspectivas.</p>
+      </div>
+    </div>
+
+    <!-- DERECHA -->
+    <div class="login-right bg-white p-5" style="width: 380px;">
+      <h3 class="text-center fw-semibold mb-4">Inicia sesión</h3>
+
+      <!-- ✅ MENSAJE DE ERROR -->
+      <div *ngIf="status === 'error'" class="alert alert-danger text-center py-2 mb-3">
+        Usuario o contraseña incorrectos
+      </div>
+
+      <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+
+        <div class="mb-3">
+          <label for="login" class="form-label fw-medium">Email o usuario</label>
+          <input type="text"
+                 class="form-control rounded-3 shadow-sm"
+                 id="login"
+                 placeholder="Email o usuario"
+                 name="login"
+                 [(ngModel)]="user.email"
+                 #login="ngModel"
+                 required
+                 [ngClass]="{'is-invalid': !login.valid && (login.touched || loginForm.submitted)}">
+
+          <small *ngIf="!login.valid && (login.touched || loginForm.submitted)"
+                 class="invalid-feedback d-block">
+            El campo es obligatorio
+          </small>
+        </div>
+
+        <div class="mb-4">
+          <label for="password" class="form-label fw-medium">Contraseña</label>
+          <input type="password"
+                 class="form-control rounded-3 shadow-sm"
+                 id="password"
+                 placeholder="********"
+                 name="password"
+                 [(ngModel)]="user.password"
+                 #password="ngModel"
+                 required
+                 minlength="6"
+                 [ngClass]="{'is-invalid': !password.valid && (password.touched || loginForm.submitted)}">
+
+          <small *ngIf="!password.valid && (password.touched || loginForm.submitted)"
+                 class="invalid-feedback d-block">
+            Contraseña no válida
+          </small>
+        </div>
+
+        <button type="submit"
+                class="btn w-100 py-2 fw-semibold text-light"
+                [disabled]="loginForm.invalid || loading"
+                style="background-color: #343a40; border-radius: 8px;">
+          {{ loading ? 'Validando...' : 'Iniciar sesión' }}
+        </button>
+
+      </form>
+
+      <div class="text-center mt-4">
+        <p class="text-muted mb-0">¿No tienes cuenta?</p>
+        <a [routerLink]="['/registro']"
+           class="fw-semibold text-decoration-none"
+           style="color: #0d6efd;">
+           Regístrate aquí
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+.login-container {
+  max-width: 900px;
+  min-height: 520px;
+  background-color: #f8f9fa;
+}
+
+.login-left {
+  flex: 1;
+  background: linear-gradient(135deg, #343a40, #495057);
+}
+
+.login-right {
+  flex: 0 0 380px;
+}
+
+@media (max-width: 768px) {
+  .login-left {
+    display: none !important;
+  }
+  .login-right {
+    width: 100%;
+    border-radius: 0;
+  }
+}
+</style>

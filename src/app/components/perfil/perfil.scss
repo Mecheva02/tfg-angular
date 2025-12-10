@@ -1,0 +1,181 @@
+.perfil-container {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Header */
+.perfil-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+
+  .foto-usuario img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%; 
+  object-fit: cover;
+  border: none; 
+}
+
+
+  .info-usuario {
+    display: flex;
+    flex-direction: column;
+
+    .username {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .nombre-completo {
+      font-size: 0.9rem;
+      color: #6b7280; /* gris */
+      margin-top: 4px;
+    }
+  }
+}
+
+/* Navegación perfil */
+.perfil-nav {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+
+  .perfil-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: #495057;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+
+    i {
+      font-size: 1.2rem;
+    }
+
+    &:hover {
+      background-color: #f2f4f7;
+      color: #0077ff;
+      i {
+        color: #0077ff;
+      }
+    }
+  }
+}
+
+/* Contenido principal */
+.perfil-main {
+  width: 100%;
+  min-height: 300px;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* Fondo semitransparente */
+.settings-popup-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Popup centrado */
+.settings-popup {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  min-width: 250px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Botones */
+.settings-popup button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.settings-popup button:hover {
+  background: #f0f0f0;
+}
+/* ============================= */
+/* MIS RESPUESTAS - GRID DE POSTS */
+/* ============================= */
+
+.mis-respuestas-container {
+  margin-top: 20px;
+}
+
+.mis-respuestas-container h4 {
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.mis-respuestas-post {
+  display: inline-block;
+  width: 180px;
+  margin: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: #fff;
+}
+
+.mis-respuestas-post:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+.mis-respuestas-img {
+  width: 100%;
+  height: 120px;          /* ✅ ALTURA CONTROLADA */
+  object-fit: cover;     /* ✅ SIN DEFORMAR */
+  display: block;
+}
+
+.mis-respuestas-title {
+  padding: 8px 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  background: #f8f9fa;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.participated-title {
+  text-align: center;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 18px;
+  letter-spacing: 0.3px;
+}
